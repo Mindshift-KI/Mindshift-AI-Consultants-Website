@@ -1,8 +1,5 @@
 
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,29 +14,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Save to database
-    const contact = await prisma.contact.create({
-      data: {
-        name,
-        email,
-        company: company || '',
-        message,
-        formType: formType || 'general',
-        status: 'new',
-        createdAt: new Date(timestamp || Date.now())
-      }
-    })
+    // Since we're using Calendly for contact, we'll just log and return success
+    console.log('Contact form submission:', { name, email, company, message, formType })
 
+    // For now, we'll just return success since Calendly handles contact collection
     return NextResponse.json({ 
       success: true, 
-      message: 'Nachricht erfolgreich gespeichert',
-      id: contact.id 
+      message: 'Nachricht erfolgreich übermittelt. Wir melden uns bald bei Ihnen.',
+      redirectToCalendly: true
     })
 
   } catch (error) {
-    console.error('Error saving contact:', error)
+    console.error('Error processing contact:', error)
     return NextResponse.json(
-      { error: 'Fehler beim Speichern der Nachricht' },
+      { error: 'Fehler beim Verarbeiten der Nachricht' },
       { status: 500 }
     )
   }

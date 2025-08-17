@@ -1,9 +1,7 @@
-import { PrismaClient } from '@prisma/client'
+// Database connection placeholder
+// Since we're using Calendly for contact management, 
+// we don't need a database connection for now
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
+export const db = {
+  // Placeholder for future database operations if needed
 }
-
-export const prisma = globalForPrisma.prisma ?? new PrismaClient()
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
